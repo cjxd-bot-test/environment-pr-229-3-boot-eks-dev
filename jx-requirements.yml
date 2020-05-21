@@ -1,35 +1,92 @@
+autoUpdate:
+  enabled: false
+  schedule: ""
+bootConfigURL: https://github.com/jenkins-x/jenkins-x-boot-config.git
 cluster:
-  clusterName: ""
-  environmentGitOwner: ""
-  environmentGitPublic: false
-  project: ""
-  provider: gke
-  zone: ""
-gitops: true
+  clusterName: pr-229-3-boot-eks
+  environmentGitOwner: cb-kubecd
+  environmentGitPublic: true
+  gitKind: github
+  gitName: github
+  gitPublic: true
+  gitServer: https://github.com
+  namespace: jx
+  provider: eks
+  region: us-east-1
+  registry: 296178596335.dkr.ecr.us-east-1.amazonaws.com
 environments:
-- key: dev
-- key: staging
-- key: production
+- ingress:
+    domain: 34.226.188.155.nip.io
+    externalDNS: false
+    ignoreLoadBalancer: true
+    namespaceSubDomain: -jx.
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: dev
+  repository: environment-pr-229-3-boot-eks-dev
+- gitKind: github
+  gitServer: https://github.com
+  ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: staging
+  owner: cb-kubecd
+  repository: environment-pr-229-3-boot-eks-staging
+- gitKind: github
+  gitServer: https://github.com
+  ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: production
+  owner: cb-kubecd
+  repository: environment-pr-229-3-boot-eks-production
+gitops: true
 ingress:
-  domain: ""
+  domain: 34.226.188.155.nip.io
   externalDNS: false
+  ignoreLoadBalancer: true
+  namespaceSubDomain: -jx.
   tls:
     email: ""
     enabled: false
     production: false
 kaniko: true
-secretStorage: local
+repository: nexus
+secretStorage: vault
 storage:
-  logs:
+  backup:
     enabled: false
+    url: ""
+  logs:
+    enabled: true
     url: ""
   reports:
-    enabled: false
+    enabled: true
     url: ""
   repository:
-    enabled: false
+    enabled: true
     url: ""
+vault:
+  aws:
+    autoCreate: true
+    iamUserName: jx-bdd-test
+  disableURLDiscovery: true
+velero:
+  schedule: ""
+  ttl: ""
 versionStream:
-  ref: "master"
-  url: https://github.com/jenkins-x/jenkins-x-versions.git
-webhook: lighthouse
+  ref: eb69127255979305649dd21d4f669f5a0a778a5e
+  url: https://github.com/cloudbees/cloudbees-jenkins-x-versions.git
+webhook: prow
